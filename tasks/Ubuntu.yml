@@ -1,0 +1,63 @@
+---
+
+# ===  MongoDB 2.x  =====
+  - name: Import MongoDB 2.x GPG key
+    become: yes
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: 7F0CEB10
+      state: present
+
+    tags:
+      - mongodb
+
+    when:  mongodb_major_version == "2"
+
+  - name: "Add MongoDB {{ mongodb_major_version }}.{{mongodb_minor_version}} Repo"
+    become: yes
+    apt_repository:
+      repo: "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
+      filename: /etc/apt/sources.list.d/mongodb-org-2.6.list
+      state: present
+      update_cache: yes
+
+    tags:
+      - mongodb
+    when:  mongodb_major_version == "2"
+
+#===  MongoDB 3.2    ========
+  - name: Import MongoDB 3.2 GPG key
+    become: yes
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: EA312927
+      state: present
+
+    tags:
+      - mongodb
+
+    when:  mongodb_major_version == "3"
+
+  - name: "Add MongoDB {{ mongodb_major_version }}.{{mongodb_minor_version}} Repo"
+    become: yes
+    apt_repository:
+      repo: "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse"
+      filename: /etc/apt/sources.list.d/mongodb-org-3.2.list
+      state: present
+      update_cache: yes
+
+    tags:
+      - mongodb
+
+    when:  mongodb_major_version == "3"
+
+#===   Install MongoDB  ======
+
+  - name: "Install MongoDB {{ mongodb_major_version }}.{{ mongodb_minor_version }}.{{ mongodb_patch_version}} via repo"
+    become: yes
+    apt:
+      name: "mongodb-org-server={{ mongodb_major_version }}.{{ mongodb_minor_version }}.{{ mongodb_patch_version }}"
+      state: present
+
+    tags:
+      - mongodb
