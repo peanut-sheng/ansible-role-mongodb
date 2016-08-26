@@ -1,2 +1,6 @@
 ---
 # handlers file for ansible-role-mongodb
+- name: restart mongodb
+  service:
+    name: mongod
+    state: restarted

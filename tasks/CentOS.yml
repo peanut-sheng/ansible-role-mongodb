@@ -51,5 +51,6 @@
       dest: /etc/mongod.conf
       line: "bind_ip=127.0.0.1"
       state: absent
+    notify: restart mongodb
     tags:
       - mongodb
